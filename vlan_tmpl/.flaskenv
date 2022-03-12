@@ -1,0 +1,2 @@
+FLASK_APP=vlan_tmpl
+FLASK_ENV=development
