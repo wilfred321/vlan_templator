@@ -23,19 +23,20 @@
 </div>
 <div class="row ml-4">
     <div class="col-4">
-        <!-- <div class="collapse" id="upload_logs"> -->
 
-            <div class="row ml-2 ">
+
+            <!-- <div class="row ml-2 ">
               <p class="lead">
                 Upload vlan data files here. Ensure the vlan id and the vlan name is single spaced for each line.
               </p>
-              <!-- <hr> -->
+            
              
-            </div>
-            <div class="card card-body mt-3 mb-4">
+            </div> -->
+            <!-- <div class="card card-body mt-3 mb-4">
                 <p class = "special-font x-large"><i class="fas fa-upload"></i> Upload Log</p>
                 <form
                   class="form-group"
+                  enctype=multipart/form-data
                   action="{{url_for('main.upload_vlan_data')}}"
                   method="post"
                 >
@@ -44,7 +45,7 @@
                       <input
                         type="file"
                         class="input-group form-control"
-                        name="vlan_file"
+                        name="file"
                       />
                     </div>
                     <div class="col">
@@ -52,19 +53,70 @@
                         <i class="fas fa-upload"></i> Upload
                       </button>
                     </div>
-                    <!-- <label class="input-group-text" for="inputGroupFile02">Upload</label> -->
+                    
                   </div>
                 </form>
             </div>   
-        </div>
-        <!-- </div> -->
+        </div> -->
+       
+
+        {%if convert %}
+
+        <!-- <div class="row ml-4">
+        <div class="col-4"> -->
+        
+               
+            <div class="btn btn-lg btn-success">
+                <a class = "none" href = "{{url_for('main.convert_vlan_data')}}">Convert</a>
+            </div>
+           
+  
+            </div>
+        {%else%}
+        <div class="row ml-2 ">
+            <p class="lead">
+              Upload vlan data files here. Ensure the vlan id and the vlan name is single spaced for each line.
+            </p>
+            <!-- <hr> -->
+           
+          </div>
+          <div class="card card-body mt-3 mb-4">
+              <p class = "special-font x-large"><i class="fas fa-upload"></i> Upload Log</p>
+              <form
+                class="form-group"
+                enctype=multipart/form-data
+                action="{{url_for('main.upload_vlan_data')}}"
+                method="post"
+              >
+                <div class="row">
+                  <div class="col-4">
+                    <input
+                      type="file"
+                      class="input-group form-control"
+                      name="file"
+                    />
+                  </div>
+                  <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-upload"></i> Upload
+                    </button>
+                  </div>
+                  <!-- <label class="input-group-text" for="inputGroupFile02">Upload</label> -->
+                </div>
+              </form>
+          </div> 
+           
+      </div>
+      {%endif%} 
+
+        
   <div class="col-8">
 
     {%if data%}
     <div class="container result-section border">
     <div class="col">
         <button type="submit" class="btn btn-primary">
-            <i class="fas fa-upload"></i> Copy
+            <i class="fa-solid fa-copy"></i> Copy
         </button>
         </div>
 
@@ -81,5 +133,7 @@
     </div>
     {%endif%}
   </div>
+
+  
 </div>
 {%endblock%}
