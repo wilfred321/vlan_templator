@@ -3,7 +3,9 @@ from flask import Blueprint, render_template,request,flash, redirect,url_for,ses
 import os
 from werkzeug.utils import secure_filename
 
-from vlan_tmpl.main.utils import allowed_file
+from vlan_tmpl.main.utils import allowed_file,edit_filename
+
+import re
 
 UPLOAD_FOLDER = './vlan_tmpl/static/files'
 
@@ -52,10 +54,48 @@ def upload_vlan_data():
 def convert_vlan_data():
     if request.method == 'GET':
         filename = session.get('file')
+        # result_file = filename + ''
         
-        with open(f"{UPLOAD_FOLDER}/{filename}") as file:
-            output = file.read()
+        raw_data = open(f"{UPLOAD_FOLDER}/{filename}")
+        infile = open(f"{UPLOAD_FOLDER}/{edit_filename(filename)}",'w')
+
+        counter = 0
+        for i in range(100):
+            result= raw_data.readline()
+            req_res = re.search(r"^(?P<vlan_id>\S+) (?P<vlan_name>.*?) ",result)
+            match = (req_res.groupdict())
+            vlan_name = match['vlan_name']
+            vlan_id = match['vlan_id']
+            # vlan_id = res['vlan_id']
+            
+
+            if "VLAN Type" in result:
+                break
+            elif vlan_id == '1':
+                pass
+            else:
+                infile.write(f'{vlan_name}: {vlan_id}\n')
+                counter += 1
+               
+        infile.close()
+        flash(f'a total of {counter} lines were written to the new file')
+
+        new_read = open(f"{UPLOAD_FOLDER}/{edit_filename(filename)}")
+        output = new_read.read()
+
         return render_template('index.html', data = output)
+    return redirect(request.url)
+
+
+
+
+
+
+
+
+
+
+    
        
     #     with open (raw_data) as infile:
     #         output = infile.read()

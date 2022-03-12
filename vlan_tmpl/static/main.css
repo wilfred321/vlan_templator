@@ -9,14 +9,22 @@ body{
 }
 
 .result-section{
-    font-family: consolas;
-    height: 500px;
+    min-height: 400px;
     width: 600px;
     background-color: whitesmoke;
 }
 
+.result_font{
+    font-family: consolas;
+}
+
 .align-center{
     text-align: center;
+}
+
+.bottom-right{
+    height: 350px;
+    width: 580px;
 }
 
 

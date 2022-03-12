@@ -108,28 +108,51 @@
            
       </div>
       {%endif%} 
+<div class="col-2">
 
+</div>
         
-  <div class="col-8">
+  <div class="col-6">
 
     {%if data%}
-    <div class="container result-section border">
-    <div class="col">
-        <button type="submit" class="btn btn-primary">
-            <i class="fa-solid fa-copy"></i> Copy
-        </button>
+    <div class="container result-section  result-font border">
+        <div class="row">
+            {{data}}
         </div>
+        <div class="row" style="position: absolute;">
+            <div class="col">
+                <button type="submit" class="btn btn-sm btn-primary">
+                    Copy
+                </button>
+                </div>
+        </div>
+   
 
     
-    {{data}}
+    
    
     </div>
     {%else%}
-    <div class="container result-section border">
+    <!-- <div class="container result-section border">
 
     
    <p class = 'display-6'>Data will be displayed here</p>
    
+    </div> -->
+
+    <div class="container  result-section border ">
+
+        <div class="row ">
+            <div class="col d-flex justify-content-center">
+                <div class=" display-6 disabled-grey"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <p class = "display-6 disabled-grey">No vlan data to convert</p>
+            </div>
+            
+        </div>
     </div>
     {%endif%}
   </div>
