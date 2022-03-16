@@ -17,8 +17,8 @@
 <!-- UPLOAD FLIGHT DATA -->
 <div class="row  border-bottom border-top m-3 ml-2 mr-2">
    
-    <div class="col-4 mb-4"> <p class="display-5 align-center">Input</p></div>
-    <div class="col-8 mb-4"><p class="display-5 align-center">Output</p></div>
+    <div class="col-4 mb-4"> <p class="display-6 align-center">Input</p></div>
+    <div class="col-8 mb-4"><p class="display-6 align-center">Output</p></div>
     
 </div>
 <div class="row ml-4">
@@ -67,21 +67,20 @@
         
                
             <div class="btn btn-lg btn-success">
-                <a class = "none" href = "{{url_for('main.convert_vlan_data')}}">Convert</a>
+                <a class = "none" style="text-decoration: none;color: white;" href = "{{url_for('main.convert_vlan_data')}}">Convert</a>
             </div>
            
   
             </div>
         {%else%}
-        <div class="row ml-2 ">
+        <div class="row ml-2">
             <p class="lead">
-              Upload vlan data files here. Ensure the vlan id and the vlan name is single spaced for each line.
+              Upload file containing the vlan data here. Ensure the file has a .txt extension.
             </p>
             <!-- <hr> -->
-           
           </div>
           <div class="card card-body mt-3 mb-4">
-              <p class = "special-font x-large"><i class="fas fa-upload"></i> Upload Log</p>
+              <p class = "special-font x-large"><i class="fas fa-upload"></i> Upload file</p>
               <form
                 class="form-group"
                 enctype=multipart/form-data
@@ -89,7 +88,7 @@
                 method="post"
               >
                 <div class="row">
-                  <div class="col-4">
+                  <div class="col-8">
                     <input
                       type="file"
                       class="input-group form-control"
@@ -117,7 +116,9 @@
     {%if data%}
     <div class="container result-section  result-font border">
         <div class="row">
-            {{data}}
+       {%for line in data%}
+           <p>{{line}}</p> 
+         {%endfor%}
         </div>
         <div class="row" style="position: absolute;">
             <div class="col">
@@ -149,7 +150,7 @@
         </div>
         <div class="row">
             <div class="col d-flex justify-content-center">
-                <p class = "display-6 disabled-grey">No vlan data to convert</p>
+                <p class = "h3 disabled-grey">No vlan data to convert</p>
             </div>
             
         </div>

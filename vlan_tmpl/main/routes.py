@@ -44,7 +44,7 @@ def upload_vlan_data():
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER,filename))
             flash('File uploaded successfully','success')
-            session['file'] = filename
+            session['filename'] = filename
             
             return render_template('index.html', convert = 'Hello')
     return render_template('index.html')
@@ -53,35 +53,37 @@ def upload_vlan_data():
 @main.route('/convert_data', methods = ['POST','GET'])
 def convert_vlan_data():
     if request.method == 'GET':
-        filename = session.get('file')
+        filename = session.get('filename')
         # result_file = filename + ''
         
         raw_data = open(f"{UPLOAD_FOLDER}/{filename}")
         infile = open(f"{UPLOAD_FOLDER}/{edit_filename(filename)}",'w')
-
+        output = []
         counter = 0
-        for i in range(100):
-            result= raw_data.readline()
-            req_res = re.search(r"^(?P<vlan_id>\S+) (?P<vlan_name>.*?) ",result)
-            match = (req_res.groupdict())
-            vlan_name = match['vlan_name']
-            vlan_id = match['vlan_id']
-            # vlan_id = res['vlan_id']
-            
+        match_dict = []
 
-            if "VLAN Type" in result:
-                break
-            elif vlan_id == '1':
-                pass
-            else:
-                infile.write(f'{vlan_name}: {vlan_id}\n')
-                counter += 1
+        
+        for i in range(100):
+            result = raw_data.readline()
+            # stop_going = re.compile(r"VLAN Type")
+            pattern = re.compile(r"(?P<vlan_id>\d{1,4})\s+(?P<vlan_name>[\w-]+)\s+")
+            matches = pattern.finditer(result)
+            for match in matches:
+                vlan_name = match['vlan_name']
+                vlan_id = match['vlan_id']
+              
+                #Exclude default vlan 1
+                if vlan_id == '1':
+                    pass
+                else:
+                    tmpl = f'{vlan_name}: {vlan_id}\n'
+                    infile.write(tmpl)
+                    output.append(tmpl)
+                    counter += 1
                
         infile.close()
-        flash(f'a total of {counter} lines were written to the new file')
+        flash(f'a total of {counter} lines were written to the new file','success')
 
-        new_read = open(f"{UPLOAD_FOLDER}/{edit_filename(filename)}")
-        output = new_read.read()
 
         return render_template('index.html', data = output)
     return redirect(request.url)
